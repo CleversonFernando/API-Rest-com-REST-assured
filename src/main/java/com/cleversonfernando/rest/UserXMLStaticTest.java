@@ -1,18 +1,27 @@
 package com.cleversonfernando.rest;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class UserXMLTest {
+public class UserXMLStaticTest {
 
+    @BeforeClass
+    public static void setup() {
+        baseURI = "http://restapi.wcaquino.me/";
+//      port = 80;
+//      basePath = "";
+    }
     @Test
     public void devoTrabalharComXML() {
 
+
         given()
+                .log().all()
                 .when()
-                .get("https://restapi.wcaquino.me/usersXML/3")
+                .get("/usersXML/3")
                 .then()
                 .statusCode(200)
                 .body("user.name", is("Ana Julia"))

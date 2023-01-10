@@ -3,6 +3,7 @@ package com.cleversonfernando.rest;
 import io.restassured.path.json.*;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,12 +17,18 @@ import static org.junit.Assert.assertTrue;
 
 public class UserJsonTest {
 
+    @BeforeClass
+    public static void setup() {
+        baseURI = "http://restapi.wcaquino.me/";
+//      port = 80;
+//      basePath = "";
+    }
     @Test
     public void deveVerificarPrimeiroNivel(){
 
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users/1")
+                .get("users/1")
                 .then()
                 .statusCode(200)
                 .body("id", is(1))
@@ -33,7 +40,7 @@ public class UserJsonTest {
     @Test
     public void deveVerificarPrimeiroNivelComOutrasFormas() {
 
-        Response response = request(GET, "http://restapi.wcaquino.me/users/1");
+        Response response = request(GET, "users/1");
 
         //path
         assertEquals(Integer.valueOf(1), response.path("id"));
@@ -53,7 +60,7 @@ public class UserJsonTest {
 
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users/2")
+                .get("users/2")
                 .then()
                 .statusCode(200)
                 .body("name", containsString("Joaquina"))
@@ -66,7 +73,7 @@ public class UserJsonTest {
 public void deveVerificarUmaLista() {
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users/3")
+                .get("users/3")
                 .then()
                 .statusCode(200)
                 .body("name", containsString("Ana"))
@@ -84,10 +91,10 @@ public void deveVerificarUmaLista() {
 
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users/4")
+                .get("users/4")
                 .then()
                 .statusCode(404)
-                .body("error", is("Usuário inesistente"))
+                .body("error", is("Usuário inexistente"))
 
         ;
     }
@@ -96,7 +103,7 @@ public void deveVerificarUmaLista() {
 
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users")
+                .get("users")
                 .then()
                 .statusCode(200)
                 .body("", hasSize(3))
@@ -113,7 +120,7 @@ public void deveVerificarUmaLista() {
     public void devoFazerVerificacoesAvancadas(){
         given()
                 .when()
-                .get("http://restapi.wcaquino.me/users")
+                .get("users")
                 .then()
                 .statusCode(200)
                 .body("", hasSize(3))
@@ -141,13 +148,13 @@ public void deveVerificarUmaLista() {
         ArrayList<String> names =
             given()
                 .when()
-                .get("http://restapi.wcaquino.me/users")
+                .get("users")
                 .then()
                 .statusCode(200)
                 .extract().path("name.findAll{it.startsWith('Maria')}")
         ;
         assertEquals(1, names.size());
         assertTrue(names.get(0).equalsIgnoreCase("mArIa Joaquina"));
-        assertEquals(names.get(0).toUpperCase(), "Maria Joaquina".toUpperCase())son;
+        assertEquals(names.get(0).toUpperCase(), "Maria Joaquina".toUpperCase());
     }
 }
