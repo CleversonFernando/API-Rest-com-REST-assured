@@ -148,6 +148,6 @@ public void deveVerificarUmaLista() {
         ;
         assertEquals(1, names.size());
         assertTrue(names.get(0).equalsIgnoreCase("mArIa Joaquina"));
-        assertEquals(names.get(0).toUpperCase(), "Maria Joaquina".toUpperCase());
+        assertEquals(names.get(0).toUpperCase(), "Maria Joaquina".toUpperCase())son;
     }
 }
