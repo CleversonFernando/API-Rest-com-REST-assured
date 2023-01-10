@@ -5,12 +5,14 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.Method.GET;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UserJsonTest {
 
@@ -131,7 +133,21 @@ public void deveVerificarUmaLista() {
                 .body("salary.min()", is(1234.5678f))
                 .body("salary.findAll{it != null}.sum()", is(closeTo(3734.5678f, 0.001)))
                 .body("salary.findAll{it != null}.sum()", allOf(greaterThan(3000d), lessThan(5000d)))
-
                 ;
+    }
+    @Test
+    public void devoUnirJsonPathComJAVA(){
+
+        ArrayList<String> names =
+            given()
+                .when()
+                .get("http://restapi.wcaquino.me/users")
+                .then()
+                .statusCode(200)
+                .extract().path("name.findAll{it.startsWith('Maria')}")
+        ;
+        assertEquals(1, names.size());
+        assertTrue(names.get(0).equalsIgnoreCase("mArIa Joaquina"));
+        assertEquals(names.get(0).toUpperCase(), "Maria Joaquina".toUpperCase());
     }
 }
