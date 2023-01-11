@@ -151,11 +151,12 @@ public class VerbosTest {
 
         ;
     }
+
     @Test
     public void deveSalvarOUsuarioUsandoObjeto() {
 
         User user = new User("Usuario via objeto", 35);
-               given()
+        given()
                 .when()
                 .log().all()
                 .contentType(ContentType.JSON)
@@ -170,6 +171,7 @@ public class VerbosTest {
 
         ;
     }
+
     @Test
     public void deveDeserializarObjetoAoSalvarUsuarioUsandoObjeto() {
 
@@ -183,12 +185,11 @@ public class VerbosTest {
                 .then()
                 .log().all()
                 .statusCode(201)
-                .extract().body().as(User.class)
-
-        ;
+                .extract().body().as(User.class);
         System.out.println(usuarioInserido);
         assertThat(usuarioInserido.getId(), notNullValue());
         assertEquals("Usuario deserializado", usuarioInserido.getName());
         assertThat(usuarioInserido.getAge(), is(35));
     }
+
 }
