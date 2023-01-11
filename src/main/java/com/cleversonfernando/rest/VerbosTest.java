@@ -3,6 +3,9 @@ package com.cleversonfernando.rest;
 import io.restassured.http.ContentType;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -62,6 +65,7 @@ public class VerbosTest {
                 .body("salary", is(1234.5678f))
         ;
     }
+
     @Test
     public void devoCustomizarURL() {
         given()
@@ -78,6 +82,7 @@ public class VerbosTest {
                 .body("salary", is(1234.5678f))
         ;
     }
+
     @Test
     public void devoCustomizarURL2() {
         given()
@@ -119,6 +124,48 @@ public class VerbosTest {
                 .log().all()
                 .statusCode(400)
                 .body("error", is("Registro inexistente"))
+        ;
+    }
+
+    @Test
+    public void deveSalvarOUsuarioUsandoMap() {
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("name", "Usuario via Map");
+        params.put("age", 25);
+
+        given()
+                .when()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .post("Http://restapi.wcaquino.me/users")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .body("id", is(notNullValue()))
+                .body("name", is("Usuario via Map"))
+                .body("age", is(25))
+
+        ;
+    }
+    @Test
+    public void deveSalvarOUsuarioUsandoObjeto() {
+
+        User user = new User("Usuario via objeto", 35);
+               given()
+                .when()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .post("Http://restapi.wcaquino.me/users")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .body("id", is(notNullValue()))
+                .body("name", is("Usuario via objeto"))
+                .body("age", is(35))
+
         ;
     }
 }
