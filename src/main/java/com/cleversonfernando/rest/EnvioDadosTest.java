@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.containsString;
 public class EnvioDadosTest {
 
     @Test
-    public void deveEnviarValorViaQuery(){
+    public void deveEnviarValorViaQuery() {
 
         given()
                 .log().all()
@@ -20,9 +20,11 @@ public class EnvioDadosTest {
                 .statusCode(200)
                 .contentType(ContentType.JSON)
 
-                ;
-    }  @Test
-    public void deveEnviarValorViaQueryViaParam(){
+        ;
+    }
+
+    @Test
+    public void deveEnviarValorViaQueryViaParam() {
 
         given()
                 .log().all()
@@ -35,6 +37,22 @@ public class EnvioDadosTest {
                 .statusCode(200)
                 .contentType(ContentType.XML)
                 .contentType(containsString("utf-8"))
+
+        ;
+    }
+
+    @Test
+    public void deveEnviarValorViaHeader() {
+
+        given()
+                .log().all()
+                .accept(ContentType.XML)
+                .when()
+                .get("https://restapi.wcaquino.me/v2/users")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .contentType(ContentType.XML)
 
         ;
     }
