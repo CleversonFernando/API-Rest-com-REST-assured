@@ -8,6 +8,8 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class VerbosTest {
 
@@ -167,5 +169,26 @@ public class VerbosTest {
                 .body("age", is(35))
 
         ;
+    }
+    @Test
+    public void deveDeserializarObjetoAoSalvarUsuarioUsandoObjeto() {
+
+        User user = new User("Usuario deserializado", 35);
+        User usuarioInserido = given()
+                .when()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .post("Http://restapi.wcaquino.me/users")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract().body().as(User.class)
+
+        ;
+        System.out.println(usuarioInserido);
+        assertThat(usuarioInserido.getId(), notNullValue());
+        assertEquals("Usuario deserializado", usuarioInserido.getName());
+        assertThat(usuarioInserido.getAge(), is(35));
     }
 }
