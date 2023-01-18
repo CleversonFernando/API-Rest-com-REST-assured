@@ -24,8 +24,6 @@ public class AuthTest {
                 .body("name", is("Luke Skywalker"))
         ;
     }
-    // bfc578bd3622f1283af550df97944087
-    // https://api.openweathermap.org/data/2.5/weather?q=Fortaleza,BR&appid=bfc578bd3622f1283af550df97944087&units=metric
 
     @Test
     public void deveObterClima(){
